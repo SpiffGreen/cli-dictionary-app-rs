@@ -1,7 +1,5 @@
 use clap::Parser;
 use std::collections::HashMap;
-use std::fs::File;
-use std::io::Read;
 use std::process;
 use strsim::levenshtein;
 use colored::*;
@@ -21,11 +19,8 @@ struct Args {
     show_suggestion: String,
 }
 
-fn load_dictionary(file_path: &str) -> HashMap<String, Vec<String>> {
-    let mut file = File::open(file_path).unwrap();
-    let mut data = String::new();
-    file.read_to_string(&mut data).unwrap();
-
+fn load_dictionary() -> HashMap<String, Vec<String>> {
+    let data = include_str!("./english-dictionary.json");
     let json: HashMap<String, Vec<String>> = serde_json::from_str(&data).unwrap();
     json
 }
@@ -37,11 +32,9 @@ fn find_closest_match(word: &str, dictionary: HashMap<String, Vec<String>>) -> O
         .cloned()
 }
 
-const DICTIONARY_PATH: &str = "/Users/spiffgreen/work/mydict/src/english-dictionary.json";
-
 fn main() {
     let args: Args = Args::parse();
-    let dictionary: HashMap<String, Vec<String>> = load_dictionary(&DICTIONARY_PATH);
+    let dictionary: HashMap<String, Vec<String>> = load_dictionary();
     let mut similar_word: Option<std::string::String> = None;
     let mut show_suggestion = true;
 
