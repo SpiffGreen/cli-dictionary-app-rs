@@ -1,11 +1,7 @@
-mod util;
-
 use clap::Parser;
-use util::{load_dictionary, find_closest_match};
-use std::collections::HashMap;
 use colored::*;
-use std::process;
-
+use std::{collections::HashMap, process};
+use mydict::{find_closest_match, load_dictionary};
 
 /// A simple cli dictionary app, simply ask `mydict <insert_word>` and it finds it.
 /// In the case it doesn't it give similar words.
@@ -51,7 +47,7 @@ fn main() {
                 println!("No Similar words.")
             }
         }
-        let error_message = format!("Word {} is not in dictionary.",  args.word).red();
+        let error_message = format!("Word {} is not in dictionary.", args.word).red();
         eprintln!("{}", error_message);
         process::exit(1)
     }

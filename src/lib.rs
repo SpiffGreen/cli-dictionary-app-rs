@@ -3,7 +3,7 @@ use strsim::levenshtein;
 
 pub fn load_dictionary() -> HashMap<String, Vec<String>> {
     let data = include_str!("./english-dictionary.json");
-    let json: HashMap<String, Vec<String>> = serde_json::from_str(&data).unwrap();
+    let json: HashMap<String, Vec<String>> = serde_json::from_str(data).unwrap();
     json
 }
 
