@@ -1,8 +1,11 @@
+mod util;
+
 use clap::Parser;
+use util::{load_dictionary, find_closest_match};
 use std::collections::HashMap;
-use std::process;
-use strsim::levenshtein;
 use colored::*;
+use std::process;
+
 
 /// A simple cli dictionary app, simply ask `mydict <insert_word>` and it finds it.
 /// In the case it doesn't it give similar words.
@@ -17,19 +20,6 @@ struct Args {
     /// Show/remove similar words from results
     #[arg(short, long, default_value_t = String::from("true"))]
     show_suggestion: String,
-}
-
-fn load_dictionary() -> HashMap<String, Vec<String>> {
-    let data = include_str!("./english-dictionary.json");
-    let json: HashMap<String, Vec<String>> = serde_json::from_str(&data).unwrap();
-    json
-}
-
-fn find_closest_match(word: &str, dictionary: HashMap<String, Vec<String>>) -> Option<String> {
-    dictionary
-        .keys()
-        .min_by_key(|key| levenshtein(word, key))
-        .cloned()
 }
 
 fn main() {
